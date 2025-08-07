@@ -1,0 +1,273 @@
+:root {
+  --primary-color: #8b791f;
+  --secondary-color: #d4af37;
+  --text-color: #524c14;
+  --light-bg: rgba(255, 255, 255, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Amiri', serif;
+  background: url('d3.png') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text-color);
+  line-height: 1.6;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+/* الشاشة الترحيبية */
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  font-size: 2rem;
+  font-weight: bold;
+  transition: opacity 1s ease;
+  position: relative;
+  z-index: 20;
+}
+
+.welcome-message {
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+  animation: fadeIn 1.5s ease;
+}
+
+.main-title {
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+.sub-title {
+  font-size: clamp(2rem, 6vw, 2.5rem);
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.greeting {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  animation: pulse 2s infinite;
+}
+
+/* المحتوى الرئيسي */
+.content {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  min-height: 100vh;
+  position: relative;
+  z-index: 10;
+}
+
+.content.show {
+  display: flex;
+}
+
+.invitation-box {
+  background-color: rgba(139, 121, 31, 0.6);
+  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+  margin: 1rem 0;
+  animation: fadeInUp 1.5s ease;
+  color: #fff;
+}
+
+/* المؤقت العد التنازلي */
+.countdown-box {
+  background-color: var(--light-bg);
+  padding: 1rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.countdown-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.countdown-item {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  min-width: 70px;
+}
+
+.countdown-item span {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.countdown-label {
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+}
+
+/* النصوص */
+.big {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: bold;
+}
+
+.medium {
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  margin-top: 1rem;
+}
+
+.small {
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  margin-top: 1rem;
+}
+
+/* الفيديو */
+.event-video {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  margin-top: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  outline: none;
+}
+
+/* الخريطة */
+.map-box {
+  margin-top: 2rem;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  width: 100%;
+}
+
+.map-title {
+  background-color: var(--light-bg);
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.map-frame {
+  width: 100%;
+  height: 300px;
+  border: none;
+}
+
+.map-button {
+  display: block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.8rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 0 0 15px 15px;
+  transition: background-color 0.3s;
+}
+
+.map-button:hover {
+  background-color: #a58d24;
+}
+
+/* مؤثرات الكونفيتي */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* الحركات */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+/* تحسينات الجوال */
+@media (max-width: 768px) {
+  .countdown-item {
+    min-width: 60px;
+    padding: 0.5rem;
+  }
+  
+  .countdown-item span {
+    font-size: 1.5rem;
+  }
+  
+  .invitation-box {
+    padding: 1rem;
+  }
+  
+  .map-frame {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .countdown-timer {
+    gap: 0.3rem;
+  }
+  
+  .countdown-item {
+    min-width: 50px;
+    padding: 0.3rem;
+  }
+  
+  .countdown-item span {
+    font-size: 1.2rem;
+  }
+  
+  .countdown-label {
+    font-size: 0.7rem;
+  }
+  
+  .map-frame {
+    height: 200px;
+  }
+}
