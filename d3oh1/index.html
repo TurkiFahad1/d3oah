@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>دعوة حضور اجتماع أمنا عائشة</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="intro" id="intro">
+    <div class="welcome-message">
+      <div class="main-title">دعوة حضور اجتماع</div>
+      <div class="sub-title">أمنا عائشة</div>
+      <div class="greeting">مرحباً بكم جميعاً</div>
+    </div>
+  </div>
+
+  <div class="content" id="content">
+    <div class="invitation-box">
+      <div class="countdown-box">
+        <div class="countdown-title">الوقت المتبقي للحدث</div>
+        <div class="countdown-timer">
+          <div class="countdown-item">
+            <span id="days">00</span>
+            <div class="countdown-label">أيام</div>
+          </div>
+          <div class="countdown-item">
+            <span id="hours">00</span>
+            <div class="countdown-label">ساعات</div>
+          </div>
+          <div class="countdown-item">
+            <span id="minutes">00</span>
+            <div class="countdown-label">دقائق</div>
+          </div>
+          <div class="countdown-item">
+            <span id="seconds">00</span>
+            <div class="countdown-label">ثواني</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- النصوص المطلوبة -->
+      <div class="big">| مرحباً وأهلين ، مقدار ومحبة |</div>
+      <div class="big">يتشرف</div>
+      <div class="big">أحفاد نورة سليمان الشايع</div>
+      <div class="medium">والأمهات والزوجات بدعوتكم لحضور</div>
+
+      <div class="big" style="margin-top: 1.5rem">اجتماع أمّنا عائشة</div>
+      <div class="small" style="font-size: 24px;">رحمة الله عليهما</div>
+
+      <div class="small" style="margin-top: 1.5rem">
+        بحضوركم تزدان الحياة <br />
+        ويفرح الأموات، وتشرق البسمات <br />
+        فلا تحرمونا من طيب لقياكم <br />
+        فلا عين منكم تُغاب <br />
+        فإنّا بشوقٍ لرؤياكم
+      </div>
+
+      <div class="small" style="margin-top: 1.5rem">
+        🗓️ الجمعة - 1447/2/21<br />
+        🕘 الساعة 9 مساءً<br />
+        📍 قاعة ضوء القمر
+      </div>
+
+      <div class="small" style="margin-top: 1.5rem">
+        🔴 نسعد بكم فلا تحملوا معكم سوى أرواحكم الجميلة<br />
+        فالحلا والقهوة بانتظاركم ❤️
+      </div>
+
+      <video autoplay loop muted playsinline class="event-video" id="event-video" preload="auto" >
+        <source src="fed.mp4" type="video/mp4" />
+        متصفحك لا يدعم تشغيل الفيديو.
+      </video>
+
+      <div class="map-box">
+        <div class="map-title">📍 موقع القاعة على الخريطة</div>
+        <iframe class="map-frame" 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1ddummy!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNMKwMjMnMDkuNCJOIDTCsDAwJzAwLjAiRQ!5e0!3m2!1sen!2sus!4v1234567890" 
+          allowfullscreen 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade"
+          >
+        </iframe>
+        <a href="https://maps.google.com?q=قاعة+ضوء+القمر" class="map-button" target="_blank" rel="noopener">فتح الخريطة في تطبيق خرائط جوجل</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
