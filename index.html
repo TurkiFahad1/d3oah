@@ -7,22 +7,57 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <canvas id="confetti-canvas"></canvas>
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
 
-  <div class="intro" id="intro">
-    <div class="welcome-message">
-      <div class="main-title">دعوة حضور اجتماع</div>
-      <div class="sub-title">أمنا عائشة</div>
-      <div class="greeting">مرحباً بكم جميعاً</div>
+  <div class="intro" id="intro" aria-hidden="false">
+    <div class="card welcome-card" role="dialog" aria-label="رسالة ترحيبية">
+      <div class="tools" aria-hidden="true">
+        <div class="circle"><span class="red box"></span></div>
+        <div class="circle"><span class="yellow box"></span></div>
+        <div class="circle"><span class="green box"></span></div>
+      </div>
+
+      <div class="card__content">
+        <div class="welcome-inner">
+          <div class="main-title">دعوة حضور اجتماع</div>
+          <div class="sub-title">أمنا عائشة</div>
+          <div class="greeting">مرحباً بكم جميعاً</div>
+
+          <button id="enter-btn" class="styled-button" aria-label="دخول الدعوة">
+            الدخول
+            <div class="inner-button">
+              <svg
+                id="Arrow"
+                viewBox="0 0 32 32"
+                xmlns="http://www.w3.org/2000/svg"
+                height="30px"
+                width="30px"
+                class="icon"
+              >
+                <defs>
+                  <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="iconGradient">
+                    <stop style="stop-color:#FFFFFF;stop-opacity:1" offset="0%"></stop>
+                    <stop style="stop-color:#AAAAAA;stop-opacity:1" offset="100%"></stop>
+                  </linearGradient>
+                </defs>
+                <path
+                  fill="url(#iconGradient)"
+                  d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z"
+                ></path>
+              </svg>
+            </div>
+          </button>
+          </div>
+      </div>
     </div>
   </div>
 
-  <div class="content" id="content">
-    <div class="invitation-box">
+  <div class="content" id="content" aria-hidden="true">
+    <div class="invitation-box" id="invitation-box">
       <div class="countdown-box">
         <div class="countdown-title">الوقت المتبقي للحدث</div>
-        <div class="countdown-timer">
-          <div class="countdown-item">
+        <div class="countdown-timer" id="countdown-timer">
+          <div class="countdown-item" aria-hidden="false">
             <span id="days">00</span>
             <div class="countdown-label">أيام</div>
           </div>
@@ -41,16 +76,15 @@
         </div>
       </div>
 
-      <!-- النصوص المطلوبة -->
-      <div class="big">| مرحباً وأهلين ، مقدار ومحبة |</div>
-      <div class="big">يتشرف</div>
-      <div class="big">أحفاد نورة سليمان الشايع</div>
-      <div class="medium">والأمهات والزوجات بدعوتكم لحضور</div>
+      <div class="big animated-text delay-1">| مرحباً وأهلين ، مقدار ومحبة |</div>
+      <div class="big animated-text delay-2">يتشرف</div>
+      <div class="big animated-text delay-3">أحفاد نورة سليمان الشايع</div>
+      <div class="medium animated-text delay-4">والأمهات والزوجات بدعوتكم لحضور</div>
 
-      <div class="big" style="margin-top: 1.5rem">اجتماع أمّنا عائشة</div>
-      <div class="small" style="font-size: 24px;">رحمة الله عليهما</div>
+      <div class="big animated-text delay-5" style="margin-top: 1.5rem">اجتماع أمّنا عائشة</div>
+      <div class="small animated-text delay-5" style="font-size: 24px;">رحمة الله عليهما</div>
 
-      <div class="small" style="margin-top: 1.5rem">
+      <div class="small animated-text delay-6" style="margin-top: 1.5rem">
         بحضوركم تزدان الحياة <br />
         ويفرح الأموات، وتشرق البسمات <br />
         فلا تحرمونا من طيب لقياكم <br />
@@ -58,30 +92,39 @@
         فإنّا بشوقٍ لرؤياكم
       </div>
 
-      <div class="small" style="margin-top: 1.5rem">
+      <div class="small animated-text delay-7" style="margin-top: 1.5rem">
         🗓️ الجمعة - 1447/2/21<br />
         🕘 الساعة 9 مساءً<br />
         📍 قاعة ضوء القمر
       </div>
 
-      <div class="small" style="margin-top: 1.5rem">
+      <div class="small animated-text delay-7" style="margin-top: 1.5rem">
         🔴 نسعد بكم فلا تحملوا معكم سوى أرواحكم الجميلة<br />
         فالحلا والقهوة بانتظاركم ❤️
       </div>
 
-      <video autoplay loop muted playsinline class="event-video" id="event-video" preload="auto" >
+      <video autoplay loop muted playsinline class="event-video" id="event-video" preload="auto">
         <source src="fed.mp4" type="video/mp4" />
         متصفحك لا يدعم تشغيل الفيديو.
       </video>
 
+      <div class="video-controls">
+        <button class="button-with-icon" id="play-toggle" aria-pressed="false" aria-label="تشغيل الفيديو">
+          <svg class="icon" id="icon-play" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#d4af37" d="M12 39c-.549 0-1.095-.15-1.578-.447A3.008 3.008 0 0 1 9 36V12c0-1.041.54-2.007 1.422-2.553a3.014 3.014 0 0 1 2.919-.132l24 12a3.003 3.003 0 0 1 0 5.37l-24 12c-.42.21-.885.315-1.341.315z"/>
+          </svg>
+          <span class="text" id="play-text">Play</span>
+        </button>
+      </div>
+
       <div class="map-box">
         <div class="map-title">📍 موقع القاعة على الخريطة</div>
-        <iframe class="map-frame" 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1ddummy!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNMKwMjMnMDkuNCJOIDTCsDAwJzAwLjAiRQ!5e0!3m2!1sen!2sus!4v1234567890" 
-          allowfullscreen 
-          loading="lazy" 
+        <iframe class="map-frame"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1ddummy!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNMKwMjMnMDkuNCJOIDTCsDAwJzAwLjAiRQ!5e0!3m2!1sen!2sus!4v1234567890"
+          allowfullscreen
+          loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-          >
+        >
         </iframe>
         <a href="https://maps.google.com?q=قاعة+ضوء+القمر" class="map-button" target="_blank" rel="noopener">فتح الخريطة في تطبيق خرائط جوجل</a>
       </div>
