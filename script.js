@@ -9,9 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const playToggle = document.getElementById('play-toggle');
   const playText = document.getElementById('play-text');
   const iconPlay = document.getElementById('icon-play');
-
-  // العد التنازلي (حدث: 22 أغسطس 2025 الساعة 21:00)
-  const eventDate = new Date('2025-08-22T21:00:00').getTime();
+  
+  // العد التنازلي
+  // تاريخ الحدث: 29 أغسطس 2025 الساعة 9:00 مساءً
+  const eventDate = new Date('2025-08-15T21:00:00').getTime();
   const countdownTimerContainer = document.getElementById('countdown-timer');
 
   function updateCountdown() {
@@ -37,26 +38,59 @@ document.addEventListener('DOMContentLoaded', () => {
   const countdownInterval = setInterval(updateCountdown, 1000);
   updateCountdown();
 
+  // وظيفة الفقاعات (الذهبية فقط)
+  function startInvitationConfetti() {
+    if (typeof confetti !== 'function') return;
+    const myConfetti = confetti.create(confettiCanvas, { resize: true, useWorker: true });
+    
+    // ألوان ذهبية فقط
+    const colors = ['#d4af37', '#b8860b', '#daa520', '#f0e9b6', '#fff8dc'];
+    
+    // موجة كبيرة من الفقاعات
+    myConfetti({
+      particleCount: 200,
+      spread: 180,
+      startVelocity: 50,
+      ticks: 200,
+      origin: { x: 0.5, y: 0.5 },
+      colors: colors,
+      scalar: 1.2
+    });
+
+    // إطلاق دفعات خفيفة ومستمرة
+    const sustainInterval = setInterval(() => {
+      myConfetti({
+        particleCount: 15,
+        spread: 90,
+        startVelocity: 30,
+        origin: { x: Math.random() * 0.9 + 0.05, y: Math.random() * 0.2 + 0.05 },
+        colors: colors,
+        scalar: 0.8
+      });
+    }, 500);
+
+    // نوقف الإطلاق بعد فترة معينة
+    setTimeout(() => clearInterval(sustainInterval), 8000);
+  }
+
   // وظائف الانتقال: من صفحة الترحيب إلى صفحة الدعوة
   enterBtn.addEventListener('click', (e) => {
     e.preventDefault();
     // إخفاء الترحيب
     intro.style.opacity = '0';
     intro.setAttribute('aria-hidden', 'true');
-    setTimeout(() => intro.style.display = 'none', 600);
+    setTimeout(() => {
+      intro.style.display = 'none';
+      // إظهار المحتوى الرئيسي بعد الإخفاء
+      content.classList.add('show');
+      content.setAttribute('aria-hidden', 'false');
 
-    // إظهار المحتوى الرئيسي
-    content.classList.add('show');
-    content.setAttribute('aria-hidden', 'false');
-
-    // إضافة أنيمي للنصوص
-    invitationBox.classList.add('animate-in');
-
-    // تشغيل confetti مكثف وجميل (فقط للدعوة)
-    startInvitationConfetti();
+      // تشغيل الفقاعات المخصصة فقط
+      startInvitationConfetti();
+    }, 600);
   });
 
-  // إعداد زر تشغيل الفيديو persistent
+  // إعداد زر تشغيل الفيديو
   function setButtonToPlayingState(isPlaying) {
     if (isPlaying) {
       playToggle.classList.add('paused');
@@ -73,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // افتراض أن الفيديو يلعب (autoplay muted)
+  // عند تحميل الصفحة، يكون الفيديو يعمل تلقائيًا (صامت)
   let isVideoPlaying = true;
   setButtonToPlayingState(isVideoPlaying);
 
@@ -81,13 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
   playToggle.addEventListener('click', (e) => {
     e.preventDefault();
     if (video.paused) {
-      video.muted = false;
+      video.muted = false; // هنا تم حل مشكلة الصوت
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.then(() => {
           isVideoPlaying = true;
           setButtonToPlayingState(true);
         }).catch(() => {
+          // في حال فشل التشغيل (قد تحدث على بعض المتصفحات)، نرجع إلى الوضع الصامت
           video.muted = true;
           video.play().catch(()=>{});
           isVideoPlaying = true;
@@ -107,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // النقر على الفيديو يبدّل التشغيل أيضاً
   video.addEventListener('click', () => {
     if (video.paused) {
-      video.muted = false;
+      video.muted = false; // هنا تم حل مشكلة الصوت
       video.play().catch(()=>{});
       isVideoPlaying = true;
       setButtonToPlayingState(true);
@@ -117,72 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
       setButtonToPlayingState(false);
     }
   });
-
-  // confetti مخصص للدعوة — إعدادات أجمل وأكثر حركة
-  function startInvitationConfetti() {
-    // التأكد من وجود مكتبة confetti
-    if (typeof confetti !== 'function') return;
-
-    // ضبط اللوحة لاستخدام canvas الموجود
-    const myConfetti = confetti.create(confettiCanvas, { resize: true, useWorker: true });
-
-    // ألوان متناسقة: ذهبي، أبيض، ذهبي فاتح، لون فاتح للزينة
-    const colors = ['#d4af37', '#fff7e6', '#ffe9b0', '#ffd58a', '#f3e5ab'];
-
-    // نطلق موجات مختلفة لتعطي إحساس ديناميكي وحركة
-    const waves = [
-      { particleCount: 120, spread: 140, startVelocity: 40, ticks: 200 },
-      { particleCount: 90, spread: 170, startVelocity: 55, ticks: 200 },
-      { particleCount: 70, spread: 120, startVelocity: 70, ticks: 200 },
-    ];
-
-    // تتابع إطلاق موجات على مدى 3.2 ثانية مع اختلاف الزوايا
-    let waveIndex = 0;
-    const waveInterval = setInterval(() => {
-      const w = waves[waveIndex % waves.length];
-      myConfetti({
-        particleCount: w.particleCount,
-        spread: w.spread,
-        startVelocity: w.startVelocity,
-        ticks: w.ticks,
-        origin: { x: Math.random() * 0.6 + 0.2, y: Math.random() * 0.3 + 0.1 },
-        colors: colors,
-        scalar: Math.random() * 0.8 + 0.8,
-      });
-
-      // أيضاً نطلق بعض الشظايا الكبيرة بشكل متفرق
-      if (Math.random() > 0.5) {
-        myConfetti({
-          particleCount: 30,
-          spread: 100,
-          startVelocity: 90,
-          origin: { x: Math.random() * 0.8 + 0.1, y: 0.05 },
-          shapes: ['square', 'circle'],
-          colors: colors,
-          scalar: 1.3
-        });
-      }
-
-      waveIndex++;
-    }, 250);
-
-    // نوقف الإطلاق بعد 3200ms
-    setTimeout(() => clearInterval(waveInterval), 3200);
-
-    // لإحساس مستمر خفيف أثناء الشاشة (خلفية متلألئة) نطلق دفعات خفيفة مدة 8 ثواني
-    const sustainInterval = setInterval(() => {
-      myConfetti({
-        particleCount: 18,
-        spread: 80,
-        startVelocity: 30,
-        origin: { x: Math.random() * 0.9 + 0.05, y: Math.random() * 0.2 + 0.05 },
-        colors: colors,
-        scalar: 0.9
-      });
-    }, 700);
-
-    setTimeout(() => clearInterval(sustainInterval), 8000);
-  }
 
   // تحسينات صغيرة: منع dblclick zoom، وحساب vh للهاتف
   document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
