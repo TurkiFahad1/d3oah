@@ -1,273 +1,264 @@
 :root {
   --primary-color: #8b791f;
-  --secondary-color: #d4af37;
-  --text-color: #524c14;
-  --light-bg: rgba(255, 255, 255, 0.15);
+  --secondary-color: #d4af37; /* ذهبي */
+  --text-color: #fff;
+  --muted-bg: rgba(0,0,0,0.45);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+/* Reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
 body {
-  margin: 0;
   font-family: 'Amiri', serif;
   background: url('d3.png') no-repeat center center fixed;
   background-size: cover;
   color: var(--text-color);
   line-height: 1.6;
   height: 100vh;
-  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* الشاشة الترحيبية */
+/* confetti canvas */
+#confetti-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; }
+
+/* Intro (welcome) overlay */
 .intro {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.85);
-  font-size: 2rem;
-  font-weight: bold;
-  transition: opacity 1s ease;
+  background-color: rgba(0,0,0,0.75);
+  transition: opacity 0.6s ease, visibility 0.6s;
+  position: relative;
+  z-index: 50;
+}
+
+.welcome-card.card {
+  width: 320px;
+  max-width: 90%;
+  height: auto;
+  margin: 0 auto;
+  background-color: #000; /* أسود */
+  border-radius: 12px;
+  border: 3px solid var(--secondary-color); /* حواف ذهبية */
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  overflow: hidden;
+}
+
+.tools { display:flex; padding:12px; gap:6px; justify-content:flex-end; }
+.circle { padding: 0 6px; }
+.box { width:12px; height:12px; border-radius:50%; display:inline-block; }
+.red { background:#ff605c; } .yellow { background:#ffbd44; } .green { background:#00ca4e; }
+
+.card__content { padding: 18px; display:flex; align-items:center; justify-content:center; }
+.welcome-inner { text-align:center; color: var(--secondary-color); padding:6px 8px; }
+
+/* START: تم تعديل هذه النصوص */
+.welcome-inner .main-title { font-size:1.35rem; font-weight:700; margin-bottom:10px; color: var(--secondary-color); }
+.welcome-inner .sub-title { font-size:1.8rem; font-weight: bold; margin-bottom:12px; color: var(--secondary-color); } /* تم التكبير */
+.welcome-inner .greeting { font-size:0.95rem; margin-bottom:20px; color: #e9d89a; }
+/* END: تم تعديل هذه النصوص */
+
+
+/* Welcome button - تم تعطيل هذا النمط لأنه تم استبدال الزر */
+/*
+.welcome-btn {
+  margin-top: 8px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#000;
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+  padding: 10px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:700;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.welcome-btn:active { transform: translateY(2px); }
+*/
+
+
+/* Main content */
+.content { display:none; padding: 1rem; min-height: 100vh; align-items:center; justify-content:center; z-index:10; }
+.content.show { display:flex; }
+
+/* Invitation box */
+.invitation-box {
+  background-color: rgba(139, 121, 31, 0.65);
+  padding: clamp(1rem, 3vw, 2rem);
+  border-radius: 20px;
+  max-width: 1000px;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
   position: relative;
   z-index: 20;
 }
 
-.welcome-message {
-  text-align: center;
-  color: #fff;
-  padding: 20px;
-  animation: fadeIn 1.5s ease;
-}
+/* Countdown */
+.countdown-box { background-color: rgba(255,255,255,0.06); padding: 1rem; border-radius: 12px; margin-bottom: 1.25rem; }
+.countdown-title { font-size: 1.1rem; margin-bottom: 0.5rem; color: #fff; }
+.countdown-timer { display:flex; justify-content:center; gap:0.5rem; flex-wrap:wrap; }
+.countdown-item { background-color: var(--muted-bg); padding: 0.6rem 1rem; border-radius: 10px; min-width: 72px; }
+.countdown-item span { font-size: 1.6rem; font-weight: 700; color: #fff; }
+.countdown-label { font-size: 0.75rem; color: var(--secondary-color); }
 
-.main-title {
-  font-size: clamp(2.5rem, 8vw, 3.5rem);
-  margin-bottom: 1rem;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-}
+/* Text sizes */
+.big { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
+.medium { font-size: clamp(1.05rem, 3vw, 1.25rem); margin-top: .6rem; color:#fff; }
+.small { font-size: clamp(0.9rem, 2.5vw, 1rem); margin-top: .6rem; color:#fff; }
 
-.sub-title {
-  font-size: clamp(2rem, 6vw, 2.5rem);
-  color: var(--secondary-color);
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-}
-
-.greeting {
-  font-size: clamp(1.5rem, 5vw, 2rem);
-  animation: pulse 2s infinite;
-}
-
-/* المحتوى الرئيسي */
-.content {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  min-height: 100vh;
-  position: relative;
-  z-index: 10;
-}
-
-.content.show {
-  display: flex;
-}
-
-.invitation-box {
-  background-color: rgba(139, 121, 31, 0.6);
-  padding: clamp(1rem, 3vw, 2rem);
-  border-radius: 20px;
-  max-width: 700px;
-  width: 100%;
-  text-align: center;
-  margin: 1rem 0;
-  animation: fadeInUp 1.5s ease;
-  color: #fff;
-}
-
-/* المؤقت العد التنازلي */
-.countdown-box {
-  background-color: var(--light-bg);
-  padding: 1rem;
-  border-radius: 15px;
-  margin-bottom: 2rem;
-}
-
-.countdown-title {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  color: #fff;
-}
-
-.countdown-timer {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.countdown-item {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  min-width: 70px;
-}
-
-.countdown-item span {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #fff;
-}
-
-.countdown-label {
-  font-size: 0.8rem;
-  color: var(--secondary-color);
-}
-
-/* النصوص */
-.big {
-  font-size: clamp(1.5rem, 5vw, 2rem);
-  font-weight: bold;
-}
-
-.medium {
-  font-size: clamp(1.1rem, 3vw, 1.3rem);
-  margin-top: 1rem;
-}
-
-.small {
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  margin-top: 1rem;
-}
-
-/* الفيديو */
+/* Video (centered) */
 .event-video {
   width: 100%;
-  max-width: 700px;
+  max-width: 780px;
   height: auto;
-  margin-top: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  margin: 1.5rem auto 0;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  display: block;
   outline: none;
 }
 
-/* الخريطة */
-.map-box {
-  margin-top: 2rem;
-  border: 2px solid #fff;
-  border-radius: 20px;
+/* Video controls wrapper - center the persistent button */
+.video-controls { margin-top: 12px; margin-bottom: 16px; display:flex; justify-content:center; }
+
+/* Button style (black + gold) */
+.button-with-icon {
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap:8px;
+  justify-content: center;
+  border: 2px solid var(--secondary-color);
+  padding: 0 14px;
+  width: 140px;
+  height: 44px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  background: #000;
+  color: var(--secondary-color);
+  cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.45);
+  transition: transform .12s ease;
 }
+.button-with-icon:active { transform: translateY(3px); }
+.button-with-icon .icon { width:22px; height:22px; flex-shrink:0; color: var(--secondary-color); }
+.button-with-icon .text { color: var(--secondary-color); text-transform: none; }
 
-.map-title {
-  background-color: var(--light-bg);
-  padding: 1rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #fff;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
+/* Pause state keeps gold on black */
+.button-with-icon.paused { background:#000; border-color: var(--secondary-color); }
 
-.map-frame {
-  width: 100%;
-  height: 300px;
-  border: none;
-}
+/* Map */
+.map-box { margin-top: 1.25rem; border: 2px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.25); width:100%; }
+.map-title { background-color: rgba(255,255,255,0.03); padding: 1rem; font-size: 1.05rem; font-weight: 700; color: #fff; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.map-frame { width: 100%; height: 300px; border: none; }
+.map-button { display:block; background-color: var(--primary-color); color:white; padding:0.8rem; text-decoration:none; font-weight:700; border-radius:0 0 12px 12px; }
+.map-button:hover { background-color:#a58d24; }
 
-.map-button {
-  display: block;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.8rem;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 0 0 15px 15px;
-  transition: background-color 0.3s;
-}
+/* Animations */
+.invitation-box > .animated-text { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+.invitation-box.animate-in > .animated-text.delay-1 { transition-delay: 0.12s; }
+.invitation-box.animate-in > .animated-text.delay-2 { transition-delay: 0.28s; }
+.invitation-box.animate-in > .animated-text.delay-3 { transition-delay: 0.44s; }
+.invitation-box.animate-in > .animated-text.delay-4 { transition-delay: 0.6s; }
+.invitation-box.animate-in > .animated-text.delay-5 { transition-delay: 0.76s; }
+.invitation-box.animate-in > .animated-text.delay-6 { transition-delay: 0.92s; }
+.invitation-box.animate-in > .animated-text.delay-7 { transition-delay: 1.08s; }
+.invitation-box.animate-in > .animated-text { opacity: 1; transform: translateY(0); }
 
-.map-button:hover {
-  background-color: #a58d24;
-}
-
-/* مؤثرات الكونفيتي */
-#confetti-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 15;
-}
-
-/* الحركات */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from { 
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0% { opacity: 0.8; }
-  50% { opacity: 1; }
-  100% { opacity: 0.8; }
-}
-
-/* تحسينات الجوال */
+/* Responsive */
 @media (max-width: 768px) {
-  .countdown-item {
-    min-width: 60px;
-    padding: 0.5rem;
-  }
-  
-  .countdown-item span {
-    font-size: 1.5rem;
-  }
-  
-  .invitation-box {
-    padding: 1rem;
-  }
-  
-  .map-frame {
-    height: 250px;
-  }
+  .welcome-card.card { width: 260px; }
+  .countdown-item { min-width: 60px; padding: 0.5rem; }
+  .event-video { max-width: 100%; }
+  .map-frame { height: 240px; }
 }
 
 @media (max-width: 480px) {
-  .countdown-timer {
-    gap: 0.3rem;
-  }
-  
-  .countdown-item {
-    min-width: 50px;
-    padding: 0.3rem;
-  }
-  
-  .countdown-item span {
-    font-size: 1.2rem;
-  }
-  
-  .countdown-label {
-    font-size: 0.7rem;
-  }
-  
-  .map-frame {
-    height: 200px;
-  }
+  .countdown-item span { font-size: 1.15rem; }
+  .map-frame { height: 200px; }
+  .button-with-icon { width: 120px; height: 40px; }
 }
+
+/* START: CSS الخاص بالزر الجديد */
+.styled-button {
+  position: relative;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(to bottom, #171717, #242424);
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 1), 0 10px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #292929;
+}
+
+.styled-button::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+  background: linear-gradient(to bottom, #292929, #000000);
+  z-index: -1;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  opacity: 1;
+}
+
+.styled-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 1), 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
+.styled-button .inner-button {
+  position: relative; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #171717, #242424);
+  width: 40px;
+  height: 40px;
+  margin-right: 10px; /* تم التعديل من margin-left إلى margin-right ليتناسب مع اتجاه اللغة العربية */
+  border-radius: 50%;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 1);
+  border: 1px solid #252525;
+  transition: all 0.2s ease;
+}
+
+.styled-button .inner-button::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+  background: linear-gradient(to bottom, #292929, #000000);
+  z-index: -1;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  opacity: 1;
+}
+.styled-button .inner-button .icon {
+  filter: drop-shadow(0 10px 20px rgba(26, 25, 25, 0.9))
+    drop-shadow(0 0 4px rgba(0, 0, 0, 1));
+  transition: all 0.4s ease-in-out;
+}
+.styled-button:hover .inner-button .icon { /* تم التعديل ليتم التأثير عند المرور على الزر كاملاً */
+  filter: drop-shadow(0 10px 20px rgba(50, 50, 50, 1))
+    drop-shadow(0 0 20px rgba(2, 2, 2, 1));
+  transform: rotate(35deg); /* تم عكس الاتجاه ليتناسب مع السهم */
+}
+/* END: CSS الخاص بالزر الجديد */
