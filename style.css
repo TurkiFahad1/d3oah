@@ -13,252 +13,338 @@ body {
   background: url('d3.png') no-repeat center center fixed;
   background-size: cover;
   color: var(--text-color);
-  line-height: 1.6;
-  height: 100vh;
+  direction: rtl;
+  overflow-x: hidden;
+  user-select: none;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-/* confetti canvas */
-#confetti-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; }
-
-/* Intro (welcome) overlay */
-.intro {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Canvas Confetti */
+#confetti-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.75);
-  transition: opacity 0.6s ease, visibility 0.6s;
-  position: relative;
-  z-index: 50;
+  pointer-events: none;
+  z-index: 99999;
 }
 
-.welcome-card.card {
-  width: 320px;
-  max-width: 90%;
-  height: auto;
-  margin: 0 auto;
-  background-color: #000; /* أسود */
-  border-radius: 12px;
-  border: 3px solid var(--secondary-color); /* حواف ذهبية */
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-  overflow: hidden;
+/* Intro Screen */
+.intro {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(17, 12, 12, 0.92);
+  z-index: 10;
+  transition: opacity 0.5s ease-in-out;
+}
+.intro.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.tools { display:flex; padding:12px; gap:6px; justify-content:flex-end; }
-.circle { padding: 0 6px; }
-.box { width:12px; height:12px; border-radius:50%; display:inline-block; }
-.red { background:#ff605c; } .yellow { background:#ffbd44; } .green { background:#00ca4e; }
-
-.card__content { padding: 18px; display:flex; align-items:center; justify-content:center; }
-.welcome-inner { text-align:center; color: var(--secondary-color); padding:6px 8px; }
-
-/* START: تم تعديل هذه النصوص */
-.welcome-inner .main-title { font-size:1.35rem; font-weight:700; margin-bottom:10px; color: var(--secondary-color); }
-.welcome-inner .sub-title { font-size:1.8rem; font-weight: bold; margin-bottom:12px; color: var(--secondary-color); } /* تم التكبير */
-.welcome-inner .greeting { font-size:0.95rem; margin-bottom:20px; color: #e9d89a; }
-/* END: تم تعديل هذه النصوص */
-
-
-/* Welcome button - تم تعطيل هذا النمط لأنه تم استبدال الزر */
-/*
-.welcome-btn {
-  margin-top: 8px;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  background:#000;
-  color: var(--secondary-color);
-  border: 2px solid var(--secondary-color);
-  padding: 10px 16px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:700;
-  transition: transform .15s ease, box-shadow .15s ease;
+.card {
+  background: var(--muted-bg);
+  border-radius: 10px;
+  width: 350px;
+  padding: 1.2rem;
+  box-shadow: 0 0 20px #d4af37;
+  user-select: none;
 }
-.welcome-btn:active { transform: translateY(2px); }
-*/
 
+.tools {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
 
-/* Main content */
-.content { display:none; padding: 1rem; min-height: 100vh; align-items:center; justify-content:center; z-index:10; }
-.content.show { display:flex; }
+.circle {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-/* Invitation box */
-.invitation-box {
-  background-color: rgba(139, 121, 31, 0.65);
-  padding: clamp(1rem, 3vw, 2rem);
-  border-radius: 20px;
-  max-width: 1000px;
-  width: 100%;
-  color: #fff;
+.red { background: #fc5f58; }
+.yellow { background: #fadb58; }
+.green { background: #8be557; }
+
+.box {
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  background: #000;
+}
+
+/* Content inside card */
+.card__content {
   text-align: center;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.45);
-  position: relative;
-  z-index: 20;
 }
 
-/* Countdown */
-.countdown-box { background-color: rgba(255,255,255,0.06); padding: 1rem; border-radius: 12px; margin-bottom: 1.25rem; }
-.countdown-title { font-size: 1.1rem; margin-bottom: 0.5rem; color: #fff; }
-.countdown-timer { display:flex; justify-content:center; gap:0.5rem; flex-wrap:wrap; }
-.countdown-item { background-color: var(--muted-bg); padding: 0.6rem 1rem; border-radius: 10px; min-width: 72px; }
-.countdown-item span { font-size: 1.6rem; font-weight: 700; color: #fff; }
-.countdown-label { font-size: 0.75rem; color: var(--secondary-color); }
+.main-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
 
-/* Text sizes */
-.big { font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,0.5); }
-.medium { font-size: clamp(1.05rem, 3vw, 1.25rem); margin-top: .6rem; color:#fff; }
-.small { font-size: clamp(0.9rem, 2.5vw, 1rem); margin-top: .6rem; color:#fff; }
+.sub-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+  color: var(--secondary-color);
+  text-shadow: 0 0 5px var(--secondary-color);
+}
 
-/* Video (centered) */
-.event-video {
-  width: 100%;
-  max-width: 780px;
-  height: auto;
-  margin: 1.5rem auto 0;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-  display: block;
+.greeting {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* Button */
+.styled-button {
+  background: transparent;
+  border: 3px solid var(--secondary-color);
+  color: var(--secondary-color);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+.styled-button:hover,
+.styled-button:focus {
+  background-color: var(--secondary-color);
+  color: #111;
   outline: none;
 }
 
-/* Video controls wrapper - center the persistent button */
-.video-controls { margin-top: 12px; margin-bottom: 16px; display:flex; justify-content:center; }
+.inner-button svg {
+  fill: var(--secondary-color);
+  transition: fill 0.3s ease;
+}
 
-/* Button style (black + gold) */
+.styled-button:hover .inner-button svg,
+.styled-button:focus .inner-button svg {
+  fill: #111;
+}
+
+/* Content after intro */
+.content {
+  display: none;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.content.show {
+  display: block;
+  opacity: 1;
+}
+
+.invitation-box {
+  background: var(--muted-bg);
+  border-radius: 12px;
+  padding: 1rem 1.5rem 2rem;
+  box-shadow: 0 0 25px #d4af37;
+  user-select: none;
+}
+
+/* Countdown styles */
+.countdown-box {
+  background: rgba(0,0,0,0.55);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 15px #d4af37;
+}
+
+.countdown-title {
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+  text-shadow: 0 0 3px var(--secondary-color);
+}
+
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-weight: 700;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 55px;
+}
+
+.countdown-item span {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+}
+
+.countdown-label {
+  font-size: 0.9rem;
+  margin-top: 0.15rem;
+}
+
+/* Animated text */
+.animated-text {
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-name: fadeInUp;
+  animation-duration: 1s;
+}
+
+.big {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-top: 0.8rem;
+  color: var(--secondary-color);
+  text-shadow: 0 0 10px var(--secondary-color);
+}
+
+.medium {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-top: 0.7rem;
+  color: #e7d783;
+}
+
+.small {
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-top: 1rem;
+  color: #f0e9b6;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delay-1 { animation-delay: 1.0s; }
+.delay-2 { animation-delay: 2.0s; }
+.delay-3 { animation-delay: 3.0s; }
+.delay-4 { animation-delay: 4.0s; }
+.delay-5 { animation-delay: 5.0s; }
+.delay-6 { animation-delay: 6.0s; }
+.delay-7 { animation-delay: 7.0s; }
+
+/* Video */
+.event-video {
+  width: 100%;
+  max-height: 300px;
+  border-radius: 12px;
+  margin-top: 2rem;
+  box-shadow: 0 0 15px var(--secondary-color);
+  background-color: black;
+  user-select: none;
+  outline: none;
+}
+
+/* Video Controls */
+.video-controls {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
 .button-with-icon {
-  overflow: hidden;
   display: inline-flex;
   align-items: center;
-  gap:8px;
-  justify-content: center;
-  border: 2px solid var(--secondary-color);
-  padding: 0 14px;
-  width: 140px;
-  height: 44px;
-  font-size: 14px;
-  font-weight: 700;
-  border-radius: 8px;
-  background: #000;
-  color: var(--secondary-color);
+  gap: 0.5rem;
+  background: var(--secondary-color);
+  border: none;
+  border-radius: 30px;
+  padding: 0.6rem 1.5rem;
   cursor: pointer;
-  box-shadow: 0 6px 0 rgba(0,0,0,0.45);
-  transition: transform .12s ease;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #111;
+  user-select: none;
+  transition: background-color 0.3s ease;
 }
-.button-with-icon:active { transform: translateY(3px); }
-.button-with-icon .icon { width:22px; height:22px; flex-shrink:0; color: var(--secondary-color); }
-.button-with-icon .text { color: var(--secondary-color); text-transform: none; }
 
-/* Pause state keeps gold on black */
-.button-with-icon.paused { background:#000; border-color: var(--secondary-color); }
+.button-with-icon:hover,
+.button-with-icon:focus {
+  background-color: #b38f0d;
+  outline: none;
+}
 
-/* Map */
-.map-box { margin-top: 1.25rem; border: 2px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.25); width:100%; }
-.map-title { background-color: rgba(255,255,255,0.03); padding: 1rem; font-size: 1.05rem; font-weight: 700; color: #fff; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
-.map-frame { width: 100%; height: 300px; border: none; }
-.map-button { display:block; background-color: var(--primary-color); color:white; padding:0.8rem; text-decoration:none; font-weight:700; border-radius:0 0 12px 12px; }
-.map-button:hover { background-color:#a58d24; }
+.button-with-icon svg.icon {
+  width: 24px;
+  height: 24px;
+  fill: #111;
+}
 
-/* Animations */
-.invitation-box > .animated-text { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
-.invitation-box.animate-in > .animated-text.delay-1 { transition-delay: 0.12s; }
-.invitation-box.animate-in > .animated-text.delay-2 { transition-delay: 0.28s; }
-.invitation-box.animate-in > .animated-text.delay-3 { transition-delay: 0.44s; }
-.invitation-box.animate-in > .animated-text.delay-4 { transition-delay: 0.6s; }
-.invitation-box.animate-in > .animated-text.delay-5 { transition-delay: 0.76s; }
-.invitation-box.animate-in > .animated-text.delay-6 { transition-delay: 0.92s; }
-.invitation-box.animate-in > .animated-text.delay-7 { transition-delay: 1.08s; }
-.invitation-box.animate-in > .animated-text { opacity: 1; transform: translateY(0); }
+/* Map Section */
+.map-box {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.map-title {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+  text-shadow: 0 0 5px var(--secondary-color);
+}
+
+.map-button {
+  display: inline-block;
+  margin-top: 0.8rem;
+  padding: 0.5rem 1.5rem;
+  background: var(--secondary-color);
+  color: #111;
+  font-weight: 700;
+  border-radius: 25px;
+  text-decoration: none;
+  box-shadow: 0 0 10px var(--secondary-color);
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.map-button:hover,
+.map-button:focus {
+  background-color: #b38f0d;
+  outline: none;
+}
 
 /* Responsive */
-@media (max-width: 768px) {
-  .welcome-card.card { width: 260px; }
-  .countdown-item { min-width: 60px; padding: 0.5rem; }
-  .event-video { max-width: 100%; }
-  .map-frame { height: 240px; }
-}
-
 @media (max-width: 480px) {
-  .countdown-item span { font-size: 1.15rem; }
-  .map-frame { height: 200px; }
-  .button-with-icon { width: 120px; height: 40px; }
+  .card {
+    width: 90vw;
+  }
+  .big {
+    font-size: 1.8rem;
+  }
+  .medium {
+    font-size: 1.2rem;
+  }
+  .small {
+    font-size: 0.9rem;
+  }
 }
-
-/* START: CSS الخاص بالزر الجديد */
-.styled-button {
-  position: relative;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #ffffff;
-  background: linear-gradient(to bottom, #171717, #242424);
-  border-radius: 9999px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 1), 0 10px 20px rgba(0, 0, 0, 0.4);
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #292929;
-}
-
-.styled-button::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  right: -1px;
-  bottom: -1px;
-  left: -1px;
-  background: linear-gradient(to bottom, #292929, #000000);
-  z-index: -1;
-  border-radius: 9999px;
-  transition: all 0.2s ease;
-  opacity: 1;
-}
-
-.styled-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 1), 0 5px 10px rgba(0, 0, 0, 0.4);
-}
-
-.styled-button .inner-button {
-  position: relative; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom, #171717, #242424);
-  width: 40px;
-  height: 40px;
-  margin-right: 10px; /* تم التعديل من margin-left إلى margin-right ليتناسب مع اتجاه اللغة العربية */
-  border-radius: 50%;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 1);
-  border: 1px solid #252525;
-  transition: all 0.2s ease;
-}
-
-.styled-button .inner-button::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  right: -1px;
-  bottom: -1px;
-  left: -1px;
-  background: linear-gradient(to bottom, #292929, #000000);
-  z-index: -1;
-  border-radius: 9999px;
-  transition: all 0.2s ease;
-  opacity: 1;
-}
-.styled-button .inner-button .icon {
-  filter: drop-shadow(0 10px 20px rgba(26, 25, 25, 0.9))
-    drop-shadow(0 0 4px rgba(0, 0, 0, 1));
-  transition: all 0.4s ease-in-out;
-}
-.styled-button:hover .inner-button .icon { /* تم التعديل ليتم التأثير عند المرور على الزر كاملاً */
-  filter: drop-shadow(0 10px 20px rgba(50, 50, 50, 1))
-    drop-shadow(0 0 20px rgba(2, 2, 2, 1));
-  transform: rotate(35deg); /* تم عكس الاتجاه ليتناسب مع السهم */
-}
-/* END: CSS الخاص بالزر الجديد */
