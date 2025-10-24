@@ -1,124 +1,55 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>دعوة حضور اجتماع أمنا عائشة</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة شبكة | رند و عبدالله</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700&family=El+Messiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
 
-  <div class="intro" id="intro" aria-hidden="false">
-    <div class="card welcome-card" role="dialog" aria-label="رسالة ترحيبية">
-      <div class="tools" aria-hidden="true">
-        <div class="circle"><span class="red box"></span></div>
-        <div class="circle"><span class="yellow box"></span></div>
-        <div class="circle"><span class="green box"></span></div>
-      </div>
-      <div class="card__content">
-        <div class="welcome-inner">
-          <div class="main-title">دعوة حضور اجتماع</div>
-          <div class="sub-title">أمنا عائشة</div>
-          <div class="greeting">مرحباً بكم جميعاً</div>
-          <button id="enter-btn" class="styled-button" aria-label="دخول الدعوة">
-            الدخول
-            <div class="inner-button">
-              <svg
-                id="Arrow"
-                viewBox="0 0 32 32"
-                xmlns="http://www.w3.org/2000/svg"
-                height="30px"
-                width="30px"
-                class="icon"
-              >
-                <defs>
-                  <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="iconGradient">
-                    <stop style="stop-color:#FFFFFF;stop-opacity:1" offset="0%"></stop>
-                    <stop style="stop-color:#AAAAAA;stop-opacity:1" offset="100%"></stop>
-                  </linearGradient>
-                </defs>
-                <path
-                  fill="url(#iconGradient)"
-                  d="M4 15a1 1 0 0 0 1 1h19.586l-4.292 4.292a1 1 0 0 0 1.414 1.414l6-6a.99.99 0 0 0 .292-.702V15c0-.13-.026-.26-.078-.382a.99.99 0 0 0-.216-.324l-6-6a1 1 0 0 0-1.414 1.414L24.586 14H5a1 1 0 0 0-1 1z"
-                ></path>
-              </svg>
+    <div id="splash-screen">
+        <h1>يا هلا ومسهلا</h1>
+    </div>
+
+    <div id="invitation-content">
+        <div class="invitation-card">
+            <p>لحظات الفرح اختارت من العمر موعداً</p>
+            <p>ليلة يعلوها الفرح والسرور</p>
+            
+            <p class="section-title">تتشرف</p>
+            <h2>أم رائد</h2>
+            <p>بدعوتكم لحضور شبكة</p>
+            
+            <h1 class="names">رند - عبدالله</h1>
+            
+            <p>وذلك بمشيئة الله تعالى</p>
+            <p class="date">يوم الثلاثاء | ١٤٤٧/٦/٤ هـ | ٢٠٢٥/١١/٢٥ م</p>
+
+            <h3 class="countdown-title">الوقت المتبقي لليلة العمر</h3>
+            <div id="countdown">
+                </div>
+
+            <p class="details">في <strong>قاعة التميز</strong></p>
+            <p class="details">الإستقبال: ٩:٠٠ مساءً</p>
+
+            <a href="#" id="location-link" class="location-button" target="_blank">
+                <i class="fas fa-map-marker-alt"></i> عرض موقع القاعة
+            </a>
+
+            <p class="footer-note">فلنا شرف حضوركم</p>
+            <p class="footer-note">ولكم كل الحفاوة والحب</p>
+
+            <div class="icons">
+                <span><i class="fas fa-mobile-alt"></i> ممنوع الجوال</span>
+                <span><i class="fas fa-child"></i> ممنوع الأطفال</span>
             </div>
-          </button>
+            <p class="footer-note special">• الدعوة شخصية •</p>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="content" id="content" aria-hidden="true">
-    <div class="invitation-box" id="invitation-box">
-      <div class="countdown-box">
-        <div class="countdown-title">الوقت المتبقي للحدث</div>
-        <div class="countdown-timer" id="countdown-timer">
-          <div class="countdown-item" aria-hidden="false">
-            <span id="days">00</span>
-            <div class="countdown-label">أيام</div>
-          </div>
-          <div class="countdown-item">
-            <span id="hours">00</span>
-            <div class="countdown-label">ساعات</div>
-          </div>
-          <div class="countdown-item">
-            <span id="minutes">00</span>
-            <div class="countdown-label">دقائق</div>
-          </div>
-          <div class="countdown-item">
-            <span id="seconds">00</span>
-            <div class="countdown-label">ثواني</div>
-          </div>
-        </div>
-      </div>
-      <div class="big animated-text delay-1">| مرحباً وأهلين ، مقدار ومحبة |</div>
-      <div class="big animated-text delay-2">يتشرف</div>
-      <div class="big animated-text delay-3">أحفاد نورة سليمان الشايع</div>
-      <div class="medium animated-text delay-4">والأمهات والزوجات بدعوتكم لحضور</div>
-      <div class="big animated-text delay-5" style="margin-top: 1.5rem">اجتماع أمّنا عائشة</div>
-      <div class="small animated-text delay-5" style="font-size: 24px;">رحمة الله عليهما</div>
-      <div class="small animated-text delay-6" style="margin-top: 1.5rem">
-        بحضوركم تزدان الحياة <br />
-        ويفرح الأموات، وتشرق البسمات <br />
-        فلا تحرمونا من طيب لقياكم <br />
-        فإنّا بشوقٍ لرؤياكم
-      </div>
-      <div class="small animated-text delay-7" style="margin-top: 1.5rem">
-        🗓️ الجمعة - 15 أغسطس 2025<br />
-        🕘 الساعة 9 مساءً<br />
-        📍 قاعة ضوء القمر
-      </div>
-      <div class="small animated-text delay-7" style="margin-top: 1.5rem">
-        🔴 نسعد بكم فلا تحملوا معكم سوى أرواحكم الجميلة<br />
-        فالحلا والقهوة بانتظاركم ❤️
-      </div>
-      <video autoplay loop muted playsinline class="event-video" id="event-video" preload="auto">
-        <source src="fed.mp4" type="video/mp4" />
-        متصفحك لا يدعم تشغيل الفيديو.
-      </video>
-      <div class="video-controls">
-        <button class="button-with-icon" id="play-toggle" aria-pressed="false" aria-label="تشغيل الفيديو">
-          <svg class="icon" id="icon-play" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path fill="#d4af37" d="M12 39c-.549 0-1.095-.15-1.578-.447A3.008 3.008 0 0 1 9 36V12c0-1.041.54-2.007 1.422-2.553a3.014 3.014 0 0 1 2.919-.132l24 12a3.003 3.003 0 0 1 0 5.37l-24 12c-.42.21-.885.315-1.341.315z"/>
-          </svg>
-          <span class="text" id="play-text">Play</span>
-        </button>
-      </div>
-
-     
-<div class="map-box">
-  <div class="map-title">📍 موقع القاعة على الخريطة</div>
-  <a href="https://maps.app.goo.gl/QHEUXJ5mjnNNoSva6" class="map-button" target="_blank" rel="noopener">فتح الخريطة في تطبيق خرائط جوجل</a>
-</div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
